@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction, Router } from 'express'
 import { BaseException, InternalServerException } from './exception'
 import { showConsole } from 'color-consola-node'
+import 'express-async-errors'
 
 interface Options {
   port?: number
