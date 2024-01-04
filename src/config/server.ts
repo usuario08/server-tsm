@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction, Router } from 'express'
 import { BaseException, InternalServerException } from './exception'
 import { showConsole } from 'color-consola-node'
+import cors from 'cors'
 import 'express-async-errors'
 
 interface Options {
@@ -21,6 +22,8 @@ export class Server {
   }
 
   private start() {
+    this.configViewResponse()
+    this.configCors()
     this.configDataType()
     this.configRoutes()
     this.configError()
@@ -28,6 +31,23 @@ export class Server {
       this.port,
       () => showConsole(`Servidor iniciado en el puerto ${this.port}`, 'green')
     )
+  }
+
+  private configViewResponse() {
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      res.on('finish', function () {
+        console.log(`${req.protocol.toUpperCase()} ${req.method} ${req.url}`, res.statusCode)
+      })
+      next()
+    })
+  }
+
+  private configCors() {
+    const corsOptions = {
+      // origin: 'http://example.com',
+      origin: '*',
+    }
+    this.app.use(cors(corsOptions))
   }
 
   private configDataType() {

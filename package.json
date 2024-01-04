@@ -20,6 +20,7 @@
   "homepage": "https://github.com/usuario08/server-tsm#readme",
   "dependencies": {
     "color-consola-node": "^1.0.0",
+    "cors": "^2.8.5",
     "env-var": "^7.4.1",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
@@ -27,6 +28,7 @@
     "mongodb": "^6.3.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "ts-node-dev": "^2.0.0"
   }
