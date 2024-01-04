@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express'
 import { collection, database, entity, schema, uri } from './config'
 import { RepositoryUsuarios } from './repository'
 import { UseCaseInsertOne } from '../application/UseCaseInsertOne'
+import { UseCaseFind } from '../application/UseCaseFind'
 
 export class Controller {
 
@@ -16,8 +17,13 @@ export class Controller {
 
   private exec() {
     this.router
-      .get(`/${schema}/${entity}`, async (_req, _res) => { })
+      .get(`/${schema}/${entity}`, this.find.bind(this))
       .post(`/${schema}/${entity}`, this.insertOne.bind(this))
+  }
+
+  private async find(req: Request, res: Response) {
+    const documents = await new UseCaseFind(this._repo).exec(req.body)
+    res.status(200).json(documents)
   }
 
   private async insertOne(req: Request, res: Response) {
