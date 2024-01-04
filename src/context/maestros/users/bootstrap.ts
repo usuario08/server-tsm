@@ -9,7 +9,15 @@ export class ManagerEntity {
   private url: string = uri
   private database: string = database
   private collection: string = collection
-  private indexes: IIndex[] = []
+  private indexes: IIndex[] = [
+    {
+      nombre: `${this.database}-${this.collection}-key`,
+      campos: [
+        { nombre: 'identificacion', direccion: 1 }
+      ],
+      opciones: { unique: true }
+    }
+  ]
   private bootstrap: Bootstraping
 
   constructor() {

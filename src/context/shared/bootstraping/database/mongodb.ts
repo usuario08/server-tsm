@@ -36,12 +36,13 @@ export class BootstrapingDataBaseMongo {
     const col = db.collection(this.collection)
 
     const indexesExists: IndexDescription[] = await col.listIndexes().toArray()
-
-    for (const row of this.indexes) {
-      if (indexesExists.findIndex(idx => idx.name === row.name) !== -1)
+    
+    for await (const row of this.indexes) {
+      if (indexesExists.findIndex(idx => idx.name === row.name) === -1)
         await col.createIndex(row.value, { name: row.name, ...row.opt })
     }
-
+    
+    await client.close()
   }
 
   private generateIndexes(indexes: IIndex[]): void {

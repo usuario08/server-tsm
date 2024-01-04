@@ -1,25 +1,28 @@
 import { Request, Response, Router } from 'express'
-import { NotFoundException } from '../../../../config/exception'
-import { entity, schema } from './config'
+import { collection, database, entity, schema, uri } from './config'
+import { RepositoryUsuarios } from './repository'
+import { UseCaseInsertOne } from '../application/UseCaseInsertOne'
 
 export class Controller {
 
   readonly router: Router
+  private _repo: RepositoryUsuarios
 
   constructor() {
     this.router = Router()
+    this._repo = new RepositoryUsuarios(uri, database, collection)
     this.exec()
   }
 
-  private exec() {   
+  private exec() {
     this.router
       .get(`/${schema}/${entity}`, async (_req, _res) => { })
-      .post(`/${schema}/${entity}`, this.insertOne)
+      .post(`/${schema}/${entity}`, this.insertOne.bind(this))
   }
 
-  private async insertOne(_req: Request, res: Response) {
-    throw new NotFoundException(`test error`)
-    res.send('Hola Mundo')
+  private async insertOne(req: Request, res: Response) {
+    const newDocument = await new UseCaseInsertOne(this._repo).exec(req.body)
+    res.status(201).json(newDocument)
   }
 
 }
