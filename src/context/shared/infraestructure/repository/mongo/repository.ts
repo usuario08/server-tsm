@@ -27,9 +27,9 @@ export class RepositoryMongo<T> implements iRepositoryMongo<T>{
 
       console.log(`CREATE ${this.collection}`)
       const resultInsert = await createDocument<T>(collection, doc, session)
-      const newDoc = await collection.findOne({ _id: resultInsert.insertedId }, { session })
+      const newDoc = await collection.findOne<T>({ _id: resultInsert.insertedId }, { session })
       await session.commitTransaction()
-      return newDoc as T | null
+      return newDoc 
     } catch (error) {
       await session.abortTransaction()
       throw error

@@ -46,3 +46,9 @@ export class ValidationException extends BaseException {
     super('Validation Error', 400, message)
   }
 }
+
+export class UnprocessableException extends BaseException {
+  constructor(message: string) {
+    super('Unprocessable Entity', 422, message)
+  }
+}
