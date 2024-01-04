@@ -1,9 +1,10 @@
-import { OptionalId } from 'mongodb'
+import { Document, Filter, OptionalId } from 'mongodb'
 import { iRepositoryMongo } from '../../../domain/iRepositoryMongo'
 import { AdapterMongoDB } from '../../adapter'
 import { createDocument } from './transactions/insertOne'
+import { findDocuments } from './transactions/find'
 
-export class RepositoryMongo<T> implements iRepositoryMongo<T>{
+export class RepositoryMongo<T extends Document> implements iRepositoryMongo<T>{
 
   protected database: string
   protected collection: string
@@ -29,7 +30,7 @@ export class RepositoryMongo<T> implements iRepositoryMongo<T>{
       const resultInsert = await createDocument<T>(collection, doc, session)
       const newDoc = await collection.findOne<T>({ _id: resultInsert.insertedId }, { session })
       await session.commitTransaction()
-      return newDoc 
+      return newDoc
     } catch (error) {
       await session.abortTransaction()
       throw error
@@ -38,4 +39,22 @@ export class RepositoryMongo<T> implements iRepositoryMongo<T>{
       await mongoClient.close()
     }
   }
+
+  async find(filter: Filter<Document>) {
+
+    const mongoClient = await AdapterMongoDB.connect(this.uri)
+
+    try {
+
+      const db = mongoClient.db(this.database)
+      const collection = db.collection<T>(this.collection)
+
+      return await findDocuments<T>(collection, filter)
+    } catch (error) {
+      throw error
+    } finally {
+      await mongoClient.close()
+    }
+  }
+
 }
