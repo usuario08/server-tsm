@@ -3,6 +3,7 @@ import { collection, database, entity, schema, uri } from './config'
 import { RepositoryUsuarios } from './repository'
 import { UseCaseInsertOne } from '../application/UseCaseInsertOne'
 import { UseCaseFind } from '../application/UseCaseFind'
+import { validarUserCreate } from './validators'
 
 export class Controller {
 
@@ -18,7 +19,7 @@ export class Controller {
   private exec() {
     this.router
       .get(`/${schema}/${entity}`, this.find.bind(this))
-      .post(`/${schema}/${entity}`, this.insertOne.bind(this))
+      .post(`/${schema}/${entity}`, validarUserCreate, this.insertOne.bind(this))
   }
 
   private async find(req: Request, res: Response) {
