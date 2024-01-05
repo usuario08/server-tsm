@@ -1,14 +1,14 @@
-import { EntityUsuario } from '../domain/EntityUsuario'
-import { RepositoryUsuarios } from '../infraestructure/repository'
+import { EntityPais } from '../domain/EntityPais'
+import { RepositoryPais } from '../infraestructure/repository'
 
 export class UseCaseFind {
-  private repository: RepositoryUsuarios
+  private repository: RepositoryPais
 
-  constructor(_repository: RepositoryUsuarios) {
+  constructor(_repository: RepositoryPais) {
     this.repository = _repository
   }
 
-  async exec(filter: Partial<EntityUsuario>): Promise<EntityUsuario[]> {
+  async exec(filter: Partial<EntityPais>): Promise<EntityPais[]> {
 
     return await this.repository.find(filter)
 

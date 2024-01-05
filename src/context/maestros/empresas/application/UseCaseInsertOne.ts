@@ -1,5 +1,5 @@
 import { UnprocessableException } from '../../../../config/exception'
-import { EntityUsuario } from '../domain/EntityEmpresa'
+import { EntityEmpresa } from '../domain/EntityEmpresa'
 import { RepositoryUsuarios } from '../infraestructure/repository'
 
 export class UseCaseInsertOne {
@@ -9,20 +9,9 @@ export class UseCaseInsertOne {
     this.repository = _repository
   }
 
-  async exec(data: EntityUsuario): Promise<EntityUsuario> {
+  async exec(_data: EntityEmpresa): Promise<EntityEmpresa> {
 
-    const document: EntityUsuario = new EntityUsuario()
-    document.identificacion = data.identificacion
-    document.password = data.password
-    document.nombres = data.nombres
-    document.apellidoPaterno = data.apellidoPaterno
-    document.apellidoMaterno = data.apellidoMaterno
-    document.email = data.email
-    document.empresa.codigo = data.empresa.codigo
-    document.empresa.nombre = data.empresa.nombre
-    document.perfil.codigo = data.perfil.codigo
-    document.perfil.nombre = data.perfil.nombre
-    document.almacen = data.almacen
+    const document: EntityEmpresa = new EntityEmpresa()
 
     const newDocument = await this.repository.insertOne(document)
 

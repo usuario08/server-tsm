@@ -4,6 +4,8 @@ import { RepositoryPais } from './repository'
 import { UseCaseInsertMany } from '../application/UseCaseInsertMany'
 import { UseCaseFind } from '../application/UseCaseFind'
 import { UseCaseGetDataPaises } from '../application/UseCaseGetDataPaises'
+import { UseCaseGenerarEntityPais } from '../application/UseCaseGenerarEntityPais'
+import { validarPaisCreate } from './validators/validators'
 
 export class Controller {
 
@@ -27,9 +29,11 @@ export class Controller {
     res.status(200).json(documents)
   }
 
-  private async insertMany(req: Request, res: Response) {
+  private async insertMany(_req: Request, res: Response) {
     const dataPaises = await new UseCaseGetDataPaises(this._repo).exec()
-    const newDocument = await new UseCaseInsertMany(this._repo).exec(req.body)
+    const entities = new UseCaseGenerarEntityPais().exec(dataPaises)
+    entities.forEach(e => validarPaisCreate(e))
+    const newDocument = await new UseCaseInsertMany(this._repo).exec(entities)
     res.status(201).json(newDocument)
   }
 

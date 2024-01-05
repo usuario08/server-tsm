@@ -1,4 +1,3 @@
-import { CodigoNombreDto } from '../../../shared/domain'
 import { DatosGeneralesDto } from './dtos'
 
 export class EntityEmpresa {

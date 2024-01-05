@@ -13,7 +13,7 @@ export class ManagerEntity {
     {
       nombre: `${this.database}-${this.collection}-key`,
       campos: [
-        { nombre: 'identificacion', direccion: 1 }
+        { nombre: 'codigo', direccion: 1 }
       ],
       opciones: { unique: true }
     }

@@ -66,12 +66,12 @@ export class RepositoryMongo<T extends Document> implements iRepositoryMongo<T>{
       const database = mongoClient.db(this.database)
       const collection = database.collection(this.collection)
 
-      const result = await createDocuments<T>(collection, docs)
+      const result = await createDocuments<T>(collection, docs)   
       console.log(`${result.insertedCount} documents were inserted`)
     } catch (error) {
       throw error
     } finally {
-      await mongoClient.close();
+      await mongoClient.close()
     }
   }
 
