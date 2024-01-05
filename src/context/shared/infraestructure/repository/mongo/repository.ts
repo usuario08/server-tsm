@@ -3,6 +3,7 @@ import { iRepositoryMongo } from '../../../domain/iRepositoryMongo'
 import { AdapterMongoDB } from '../../adapter'
 import { createDocument } from './transactions/insertOne'
 import { findDocuments } from './transactions/find'
+import { createDocuments } from './transactions/insertMany'
 
 export class RepositoryMongo<T extends Document> implements iRepositoryMongo<T>{
 
@@ -16,7 +17,7 @@ export class RepositoryMongo<T extends Document> implements iRepositoryMongo<T>{
     this.uri = uri
   }
 
-  async saveOne(doc: OptionalId<T>) {
+  async insertOne(doc: OptionalId<T>) {
     const mongoClient = await AdapterMongoDB.connect(this.uri)
     const session = mongoClient.startSession()
     try {
@@ -54,6 +55,23 @@ export class RepositoryMongo<T extends Document> implements iRepositoryMongo<T>{
       throw error
     } finally {
       await mongoClient.close()
+    }
+  }
+
+  async insertMany(docs: OptionalId<T>[]) {
+
+    const mongoClient = await AdapterMongoDB.connect(this.uri)
+
+    try {
+      const database = mongoClient.db(this.database)
+      const collection = database.collection(this.collection)
+
+      const result = await createDocuments<T>(collection, docs)
+      console.log(`${result.insertedCount} documents were inserted`)
+    } catch (error) {
+      throw error
+    } finally {
+      await mongoClient.close();
     }
   }
 

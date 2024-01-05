@@ -1,5 +1,5 @@
 import { UnprocessableException } from '../../../../config/exception'
-import { EntityUsuario } from '../domain/EntityUsuario'
+import { EntityUsuario } from '../domain/EntityEmpresa'
 import { RepositoryUsuarios } from '../infraestructure/repository'
 
 export class UseCaseInsertOne {
