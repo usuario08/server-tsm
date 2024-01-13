@@ -18,8 +18,6 @@ export class UseCaseInsertOne {
     document.apellidoPaterno = data.apellidoPaterno
     document.apellidoMaterno = data.apellidoMaterno
     document.email = data.email
-    document.empresa.codigo = data.empresa.codigo
-    document.empresa.nombre = data.empresa.nombre
     document.perfil.codigo = data.perfil.codigo
     document.perfil.nombre = data.perfil.nombre
     document.almacen = data.almacen
