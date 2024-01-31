@@ -4,8 +4,8 @@
   "description": "Backend para gestion logistico",
   "main": "index.js",
   "scripts": {
-    "start": "node --env-file=.env build/app.js",
-    "dev": "ts-node-dev --env-file=local.env src/app.ts",
+    "start": "node --env-file=.env.production build/app.js",
+    "dev": "ts-node-dev --env-file=.env.development src/app.ts",
     "tsc": "tsc"
   },
   "repository": {
