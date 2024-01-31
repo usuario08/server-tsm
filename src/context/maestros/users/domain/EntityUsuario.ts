@@ -7,7 +7,6 @@ export class EntityUsuario {
   apellidoPaterno: string = ''
   apellidoMaterno: string = ''
   email: string = ''
-  // empresa: CodigoNombreDto = new CodigoNombreDto()
   perfil: CodigoNombreDto = new CodigoNombreDto()
   estado: boolean = true
   emailVerificado: boolean = false

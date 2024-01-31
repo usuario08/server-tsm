@@ -17,26 +17,44 @@ export class RepositoryMongo<T extends Document> implements iRepositoryMongo<T>{
     this.uri = uri
   }
 
+  // async insertOne(doc: OptionalId<T>) {
+  //   const mongoClient = await AdapterMongoDB.connect(this.uri)
+  //   const session = mongoClient.startSession()
+  //   try {
+
+  //     session.startTransaction()
+
+  //     const db = mongoClient.db(this.database)
+  //     const collection = db.collection(this.collection)
+
+  //     console.log(`CREATE ${this.collection}`)
+  //     const resultInsert = await createDocument<T>(collection, doc, session)
+  //     const newDoc = await collection.findOne<T>({ _id: resultInsert.insertedId }, { session })
+  //     await session.commitTransaction()
+  //     return newDoc
+  //   } catch (error) {
+  //     await session.abortTransaction()
+  //     throw error
+  //   } finally {
+  //     await session.endSession()
+  //     await mongoClient.close()
+  //   }
+  // }
+
   async insertOne(doc: OptionalId<T>) {
     const mongoClient = await AdapterMongoDB.connect(this.uri)
-    const session = mongoClient.startSession()
     try {
-
-      session.startTransaction()
 
       const db = mongoClient.db(this.database)
       const collection = db.collection(this.collection)
 
       console.log(`CREATE ${this.collection}`)
-      const resultInsert = await createDocument<T>(collection, doc, session)
-      const newDoc = await collection.findOne<T>({ _id: resultInsert.insertedId }, { session })
-      await session.commitTransaction()
+      const resultInsert = await createDocument<T>(collection, doc)
+      const newDoc = await collection.findOne<T>({ _id: resultInsert.insertedId })
       return newDoc
     } catch (error) {
-      await session.abortTransaction()
       throw error
     } finally {
-      await session.endSession()
       await mongoClient.close()
     }
   }
