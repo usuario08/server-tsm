@@ -1,4 +1,4 @@
-export interface DtoBodySignIn {
+export interface DtoReqSignIn {
   identificacion: string,
   password: string,
 }

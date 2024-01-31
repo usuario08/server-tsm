@@ -1,6 +1,6 @@
 import { UnauthorizedException } from '../../../../config/exception'
-import { DtoBodySignIn } from '../domain/DtoBodySignIn'
-import { DtoResponseSignIn } from '../domain/DtoResponseSignIn'
+import { DtoReqSignIn } from '../domain/DtoReqSignIn'
+import { DtoResSignIn } from '../domain/DtoResSignIn'
 import { RepositoryUsuarios } from '../infraestructure/repository'
 
 export class UseCaseSignIn {
@@ -10,7 +10,7 @@ export class UseCaseSignIn {
     this.repository = _repository
   }
 
-  async exec(data: DtoBodySignIn): Promise<{ user: DtoResponseSignIn, token: string }> {
+  async exec(data: DtoReqSignIn): Promise<{ user: DtoResSignIn, token: string }> {
 
     const user = await this.repository.find({ identificacion: data.identificacion, estado: true })
 
@@ -31,7 +31,7 @@ export class UseCaseSignIn {
 
     if (password !== data.password) throw new UnauthorizedException(`¡Identificación o contraseña incorrectos!`)
 
-    const token = 'test'
+    const { token } = this.repository.generateJwt({ identificacion, apellidoMaterno, apellidoPaterno, email, nombres, perfil, superUsuario })
 
     return {
       user: {
