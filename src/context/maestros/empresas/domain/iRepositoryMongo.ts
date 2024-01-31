@@ -1,4 +1,4 @@
 import { iRepositoryMongo } from '../../../shared/domain/iRepositoryMongo'
-import { EntityUsuario } from './EntityEmpresa'
+import { EntityEmpresa } from './EntityEmpresa'
 
-export interface iRepositoryUsuarios extends iRepositoryMongo<EntityUsuario> { }
+export interface iRepositoryUsuarios extends iRepositoryMongo<EntityEmpresa> { }
