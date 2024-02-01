@@ -62,6 +62,7 @@ export class Server {
     this.app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
       console.error(err.stack)
       if (err instanceof BaseException) {
+        res.statusMessage = err.errorMessage
         return res.status(err.statusCode).json(err)
       }
       if (err) {
