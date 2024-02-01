@@ -41,7 +41,7 @@ export class Controller {
       sameSite: 'strict',
       secure: true
     })
-    res.status(200).json(response.user)
+    res.status(200).send(JSON.stringify(response.user))
   }
 
 }
